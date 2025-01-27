@@ -25,6 +25,22 @@ def create_contact():
         return jsonify({"message": str(e)}), 400
     
     return jsonify({"message": "New contact created!"}), 201
+
+@app.route("/update_contact/<int:user_id>", methods=["PATCH"]) # Function decorator
+def update_contact(user_id):
+    contact = contact.query.get(user_id) # Retrieve contact information for user with specific ID
+
+    if not contact:
+        return jsonify({"message": "User not found"}), 404
+    
+    data = request.json
+    contact.first_name = data.get("firstName", contact.first_name)
+    contact.last_name = data.get("lastName", contact.last_name)
+    contact.email = data.get("email", contact.email)
+
+    db.session.commit() # Commit updated contact information
+
+    return jsonify({"message": "User contact information updated!"}), 200
         
 # Entry point of program
 if __name__ == "__main__":
