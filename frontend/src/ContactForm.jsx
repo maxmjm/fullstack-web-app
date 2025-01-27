@@ -33,7 +33,7 @@ const ContactForm = ({}) => {
 
     // Check if request is successful
     if (response.status != 201 && response.status != 200) {
-      const message = await response.json();
+      const data = await response.json();
       alert(data.message);
     } else {
       // Successful
@@ -69,3 +69,5 @@ const ContactForm = ({}) => {
     </form>
   );
 };
+
+export default ContactForm;
