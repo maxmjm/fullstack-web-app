@@ -41,6 +41,18 @@ def update_contact(user_id):
     db.session.commit() # Commit updated contact information
 
     return jsonify({"message": "User contact information updated!"}), 200
+
+@app.route("/delete_contact/<int:user_id>", methods=["DELETE"])
+def delete_contact(user_id):
+    contact = contact.query.get(user_id) # Retrieve contact information for user with specific ID
+
+    if not contact:
+        return jsonify({"message": "User not found"}), 404
+    
+    db.session.delete(contact)
+    db.session.commit() # Commit removal of contact from database
+
+    return jsonify({"message": "User deleted!"}), 200
         
 # Entry point of program
 if __name__ == "__main__":
