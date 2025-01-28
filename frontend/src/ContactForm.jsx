@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-const ContactForm = ({}) => {
+const ContactForm = ({ existingContact = {}, updateCallback}) => {
   // Variable states
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState(existingContact.firstName || "");
+  const [lastName, setLastName] = useState(existingContact.lastName || "");
+  const [email, setEmail] = useState(existingContact.email || "");
+
+  const updating = Object.entries(existingContact).length !== 0
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ const ContactForm = ({}) => {
     };
 
     // Define url endpoint
-    const url = "http://127.0.0.1:5000/create_contact";
+    const url = "http://127.0.0.1:5000/" + (updating ? `update_contact/${existingContact.id}` : "create_contact");
 
     // Set options for request
     const options = {
@@ -32,11 +34,11 @@ const ContactForm = ({}) => {
     const response = await fetch(url, options);
 
     // Check if request is successful
-    if (response.status != 201 && response.status != 200) {
+    if (response.status !== 201 && response.status !== 200) {
       const data = await response.json();
       alert(data.message);
     } else {
-      // Successful
+      updateCallback()
     }
   };
 
