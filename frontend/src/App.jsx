@@ -1,6 +1,6 @@
+import "./App.css";
 import { useState, useEffect } from "react";
 import ContactList from "./ContactList";
-import "./App.css";
 import ContactForm from "./ContactForm";
 
 function App() {
