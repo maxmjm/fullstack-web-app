@@ -44,7 +44,7 @@ def update_contact(user_id):
 
 @app.route("/delete_contact/<int:user_id>", methods=["DELETE"])
 def delete_contact(user_id):
-    contact = contact.query.get(user_id) # Retrieve contact information for user with specific ID
+    contact = Contact.query.get(user_id) # Retrieve contact information for user with specific ID
 
     if not contact:
         return jsonify({"message": "User not found"}), 404
